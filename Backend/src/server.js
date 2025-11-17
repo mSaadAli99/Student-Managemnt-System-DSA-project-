@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
-import studentRoutes from "./routes/student.route.js";
 import authRoutes from "./routes/auth.route.js";
+import teacherRoutes from "./routes/teacher.route.js";
+import studentRoutes from "./routes/student.route.js";
 import cors from "cors";
 
 dotenv.config();
@@ -17,7 +18,8 @@ app.get("/", (req, res) => {
 const apiRouter = express.Router();
 
 apiRouter.use("/auth", authRoutes);
-apiRouter.use("/students", studentRoutes);
+apiRouter.use("/teacher", teacherRoutes);
+apiRouter.use("/student", studentRoutes);
 
 app.use("/api/v1", apiRouter);
 

@@ -8,14 +8,14 @@ import apihandle from "../api/apihandle";
 export default function StudentSignup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [roll, setRoll] = useState("");
+  const [password, setPassword] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
     try {
-      await apihandle.signup({ role: "STUDENT", name, email, phone, roll });
+      await apihandle.signup({ role: "STUDENT", name, email, password, identifier });
       alert("Account created. Please login.");
       navigate("/");
     } catch (err) {
@@ -41,15 +41,16 @@ export default function StudentSignup() {
           required
         />
         <Input
-          label="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          label="Password"
+          value={password}
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
         <Input
           label="Roll Number"
-          value={roll}
-          onChange={(e) => setRoll(e.target.value)}
+          value={identifier}
+          onChange={(e) => setIdentifier(e.target.value)}
           required
         />
         <div className="pt-2">

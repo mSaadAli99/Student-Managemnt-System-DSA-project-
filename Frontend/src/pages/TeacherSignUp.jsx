@@ -9,7 +9,7 @@ export default function TeacherSignup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
+  const [identifier, setIdentifer] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function TeacherSignup() {
         name,
         email,
         phone,
-        employeeId,
+        identifier,
         password,
       });
       alert("Account created. Please login.");
@@ -49,15 +49,9 @@ export default function TeacherSignup() {
           required
         />
         <Input
-          label="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-        />
-        <Input
           label="Employee ID"
-          value={employeeId}
-          onChange={(e) => setEmployeeId(e.target.value)}
+          value={identifier}
+          onChange={(e) => setIdentifer(e.target.value)}
           required
         />
         <Input
@@ -68,7 +62,9 @@ export default function TeacherSignup() {
           required
         />
         <div className="pt-2">
-          <Button className='w-full' type="submit">Create account</Button>
+          <Button className="w-full" type="submit">
+            Create account
+          </Button>
         </div>
       </form>
     </div>
