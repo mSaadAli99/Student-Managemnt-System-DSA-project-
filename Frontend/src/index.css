@@ -14,3 +14,233 @@ body { @apply bg-slate-600; }
     @apply border-border; }
   body {
     @apply bg-background text-foreground; } }
+
+
+    
+
+    @layer components {
+      .login-hero {
+        @apply min-h-screen flex items-center justify-center bg-gradient-to-br from-[#003b9a] via-[#0057d8] to-[#0ea5e9] px-4 py-10;
+        overflow: hidden;
+      }
+    
+      .login-hero__canvas {
+        position: absolute;
+        inset: 0;
+        opacity: 0.35;
+      }
+    
+      .login-disc {
+        position: absolute;
+        border-radius: 999px;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(148, 163, 184, 0.2));
+        filter: blur(1px);
+      }
+    
+      .login-disc--one {
+        width: 320px;
+        height: 320px;
+        bottom: -100px;
+        left: -40px;
+      }
+    
+      .login-disc--two {
+        width: 220px;
+        height: 220px;
+        top: 120px;
+        right: 80px;
+      }
+    
+      .login-disc--three {
+        width: 140px;
+        height: 140px;
+        top: 60px;
+        left: 160px;
+      }
+    
+      .login-shell {
+        @apply relative grid w-full max-w-5xl gap-0 overflow-hidden rounded-[32px] bg-white;
+        @apply md:grid-cols-[1.1fr_0.9fr];
+        box-shadow: 0 30px 90px rgba(3, 7, 18, 0.35);
+      }
+    
+      .login-copy {
+        @apply relative flex flex-col justify-center gap-6 p-12 text-white;
+        background: linear-gradient(120deg, rgba(0, 91, 197, 0.95), rgba(14, 165, 233, 0.9));
+      }
+    
+      .login-copy::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.25), transparent 55%);
+      }
+    
+      .login-copy .eyebrow {
+        @apply text-xs uppercase tracking-[0.4em] text-white/70;
+      }
+    
+      .login-copy h1 {
+        @apply text-4xl font-semibold;
+      }
+    
+      .login-copy p {
+        @apply text-white/90 leading-relaxed;
+      }
+    
+      .login-bullets {
+        @apply flex flex-wrap gap-3 text-xs font-semibold;
+      }
+    
+      .login-bullets span {
+        @apply rounded-full border border-white/30 px-4 py-2 text-white;
+      }
+    
+      .login-card {
+        @apply flex flex-col gap-6 bg-white p-10;
+      }
+    
+      .login-card header h2 {
+        @apply text-2xl font-semibold text-slate-900;
+      }
+    
+      .login-card header p {
+        @apply text-sm text-slate-500;
+      }
+    
+      .login-card__body {
+        @apply relative rounded-2xl border border-slate-200 bg-slate-50/80 p-6 shadow-inner;
+      }
+    }
+
+    @layer components {
+      .dashboard-hero {
+        @apply min-h-screen w-full bg-gradient-to-br from-[#003b9a] via-[#0057d8] to-[#0ea5e9] p-3 md:p-6;
+        position: relative;
+        overflow: hidden;
+      }
+    
+      .dashboard-shell {
+        @apply relative flex w-full min-h-[85vh] rounded-[32px] bg-white/95;
+        box-shadow: 0 30px 80px rgba(2, 6, 23, 0.4);
+        overflow: hidden;
+      }
+    
+      .dashboard-sidebar {
+        @apply flex h-full w-64 flex-col gap-6 bg-slate-900/90 p-6 text-white transition-all duration-300;
+        backdrop-filter: blur(6px);
+      }
+    
+      .dashboard-sidebar--collapsed {
+        @apply w-20 items-center px-3;
+      }
+    
+      .dashboard-sidebar__header {
+        @apply flex items-center justify-between;
+      }
+    
+      .dashboard-sidebar__header h1 {
+        @apply text-lg font-semibold tracking-wide;
+      }
+    
+      .toggle-btn {
+        @apply h-8 w-8 rounded-full bg-white/10 text-white hover:bg-white/20;
+      }
+    
+      .dashboard-sidebar__nav {
+        @apply flex flex-1 flex-col gap-3;
+      }
+    
+      .nav-pill {
+        @apply flex items-center gap-3 rounded-2xl bg-white/5 px-4 py-3 text-sm text-white/80 transition hover:bg-white/15;
+      }
+    
+      .nav-pill--active {
+        @apply bg-white text-slate-900 shadow-lg;
+      }
+    
+      .nav-pill--compact {
+        @apply justify-center px-2;
+      }
+    
+      .dashboard-sidebar__user {
+        @apply flex items-center gap-3 rounded-2xl bg-white/10 p-3 text-white;
+      }
+    
+      .avatar {
+        @apply flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-sm font-semibold uppercase;
+      }
+    
+      .user-copy p {
+        @apply text-sm font-semibold;
+      }
+    
+      .user-copy small {
+        @apply text-xs text-white/70;
+      }
+    
+      .mobile-trigger {
+        @apply fixed top-4 left-4 z-40 h-10 w-10 rounded-full bg-white/20 text-white backdrop-blur;
+      }
+    
+      .dashboard-main {
+        @apply flex-1 flex flex-col bg-white;
+      }
+    
+      .dashboard-main__header {
+        @apply border-b border-slate-100 bg-slate-50/80 px-6 py-8;
+      }
+    
+      .dashboard-main__header h2 {
+        @apply text-3xl font-semibold text-slate-900;
+      }
+    
+      .dashboard-main__header p {
+        @apply text-sm text-slate-500;
+      }
+    
+      .dashboard-main__content {
+        @apply flex-1 overflow-auto p-6;
+        background: radial-gradient(circle at top right, rgba(30, 64, 175, 0.08), transparent 55%);
+      }
+
+  .dashboard-hero-row {
+    @apply flex flex-col gap-4 md:flex-row md:items-center md:justify-between;
+  }
+
+  .dashboard-logo {
+    @apply flex items-center gap-4;
+  }
+
+  .logo-mark {
+    @apply flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0057d8] to-[#0ea5e9] text-white text-lg font-semibold shadow-lg;
+  }
+
+  .dashboard-tagline {
+    @apply text-sm font-medium text-slate-500 md:text-right;
+  }
+
+  .lesson-status {
+    @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wide whitespace-nowrap flex-shrink-0;
+  }
+
+  .lesson-status--done {
+    @apply border-green-200 bg-green-50 text-green-700;
+  }
+
+  .lesson-status--pending {
+    @apply border-amber-200 bg-amber-50 text-amber-700;
+  }
+
+  .lesson-row {
+    @apply flex w-full items-center gap-4;
+  }
+
+  .lesson-title {
+    @apply flex-1 text-left text-sm font-medium;
+  }
+
+  .lesson-meta {
+    @apply flex flex-1 items-center gap-4;
+  }
+    }

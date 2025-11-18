@@ -146,7 +146,7 @@ const Classes = () => {
           {classes.map((cls) => (
             <Card
               key={cls.id}
-              className="hover:shadow-md hover:scale-[1.01] transition cursor-pointer overflow-hidden"
+              className="flex h-full flex-col overflow-hidden transition hover:scale-[1.01] hover:shadow-md"
             >
               <div className="h-28 w-full relative">
                 <img
@@ -162,7 +162,7 @@ const Classes = () => {
                 </CardTitle>
               </CardHeader>
 
-              <CardContent className="text-sm text-muted-foreground space-y-1">
+              <CardContent className="flex-1 space-y-1 text-sm text-muted-foreground">
                 <p className="text-lg pb-2">{cls.description}</p>
                 {user?.role === "TEACHER" && (
                   <p>👥 {cls.studentCount} students</p>
@@ -170,7 +170,7 @@ const Classes = () => {
                 <p>📚 {cls.lessonCount || cls.totalLessons} lessons</p>
               </CardContent>
 
-              <CardFooter>
+              <CardFooter className="mt-auto pt-2">
                 <Button
                   onClick={() => {
                     if (user?.role === "TEACHER") {

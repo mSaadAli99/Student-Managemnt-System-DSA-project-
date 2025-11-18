@@ -266,8 +266,10 @@ export default function ClassDetails() {
             <Accordion type="single" collapsible className="space-y-2">
               {lessons.map((l) => (
                 <AccordionItem key={l.id} value={`lesson-${l.id}`}>
-                  <AccordionTrigger className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{l.title}</span>
+                  <AccordionTrigger className="lesson-row">
+                    <div className="lesson-meta">
+                      <span className="lesson-title">{l.title}</span>
+                    </div>
                   </AccordionTrigger>
                   <AccordionContent>
                     <p className="text-sm text-muted-foreground whitespace-pre-wrap">

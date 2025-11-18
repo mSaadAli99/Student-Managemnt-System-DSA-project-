@@ -126,22 +126,28 @@ export default function ClassDetailsStudent() {
             <Accordion type="single" collapsible className="space-y-2">
               {lessons.map((l) => (
                 <AccordionItem key={l.id} value={`lesson-${l.id}`}>
-                  <AccordionTrigger className="flex justify-between items-center">
-                    <span className="text-sm font-medium">{l.title}</span>
+                  <AccordionTrigger className="lesson-row">
+                    <div className="lesson-meta">
+                      <span className="lesson-title">{l.title}</span>
 
-                    <span className="flex items-center gap-1 text-sm font-medium">
-                      {l.completed ? (
-                        <>
-                          <CheckCircle size={16} className="text-green-600" />
-                          <span>Completed</span>
-                        </>
-                      ) : (
-                        <>
-                          <Clock size={16} className="text-yellow-600" />
-                          <span>Not Completed</span>
-                        </>
-                      )}
-                    </span>
+                      <span
+                        className={`lesson-status ${
+                          l.completed ? "lesson-status--done" : "lesson-status--pending"
+                        }`}
+                      >
+                        {l.completed ? (
+                          <>
+                            <CheckCircle size={16} />
+                            <span>Completed</span>
+                          </>
+                        ) : (
+                          <>
+                            <Clock size={16} />
+                            <span>Not Completed</span>
+                          </>
+                        )}
+                      </span>
+                    </div>
                   </AccordionTrigger>
                   <AccordionContent>
                     <div className="text-sm text-muted-foreground whitespace-pre-wrap mb-3">
