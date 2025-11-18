@@ -8,7 +8,7 @@ export const teacherMiddleware = (req, res, next) => {
     if (role !== "TEACHER") {
       return res
         .status(401)
-        .json({ message: "Tou are not authorized for this action" });
+        .json({ message: "You are not authorized for this action" });
     }
     next();
   } catch (err) {

@@ -32,8 +32,9 @@ int main()
         // Check if student has pending invite in this class
         if (find(cls.pendingInvites.begin(), cls.pendingInvites.end(), student.id) != cls.pendingInvites.end())
         {
+            User &teacher = users[cls.teacherEmail];
             stringstream inviteInfo;
-            inviteInfo << cls.id << ":" << cls.name << ":" << cls.description << ":" << cls.teacherEmail;
+            inviteInfo << cls.id << ":" << cls.name << ":" << cls.description << ":" << cls.teacherEmail << ":" << teacher.name;
             invitations.push_back(inviteInfo.str());
         }
     }

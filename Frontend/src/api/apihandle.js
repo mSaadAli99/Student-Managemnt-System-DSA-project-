@@ -33,4 +33,61 @@ export default {
   checkAuth: async () => {
     return request("/auth/check-auth", { method: "GET" });
   },
+  getTeacherClasses: async () => {
+    return request("/teacher/classes", { method: "GET" });
+  },
+  getStudentClasses: async () => {
+    return request("/teacher/student/classes", { method: "GET" });
+  },
+  addNewClasses: async (payload) => {
+    return request("/teacher/create-class", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  getLessons: async (classId) => {
+    return request(`/teacher/${classId}/get-lessons`, {
+      method: "GET",
+    });
+  },
+  addLesson: async (payload) => {
+    return request(`/teacher/add-lesson`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  inviteStudents: async (payload) => {
+    return request(`/teacher/send-invite`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  getClassStudents: async (payload) => {
+    return request(`/teacher/classes/${payload.classId}/students`, {
+      method: "POST",
+      body: JSON.stringify({ teacherEmail: payload.teacherEmail }),
+    });
+  },
+  respondToInvite: async (payload) => {
+    return request(`/student/respond-to-invite`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  getPendingInvites: async () => {
+    return request(`/student/pending-invites`, {
+      method: "GET",
+    });
+  },
+  markLessonAsCompleted: async (payload) => {
+    return request(`/student/lesson-complete`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+  },
+  getTopStudents: async (id) => {
+    return request(`/student/${id}/top-students`, {
+      method: "GET",
+    });
+  },
 };

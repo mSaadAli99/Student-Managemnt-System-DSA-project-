@@ -1,65 +1,187 @@
+#include "storage.hpp"
+#include "lessons.hpp"
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
 #include <sstream>
-
+#include <fstream>
+#include <algorithm>
+#include <queue>
+#include <vector>
 using namespace std;
 
-struct Student
-{
-    string name;
-    int grade;
-    int roll;
-};
+std::unordered_map<int, Lesson> lessons;
+int nextLessonID = 1;
 
-string toJSON(const vector<Student> &students)
+void loadLessons()
 {
-    string json = "[";
-    for (size_t i = 0; i < students.size(); ++i)
+    ifstream lessonFile("./db/lessons.db");
+    string line;
+
+    if (lessonFile.is_open())
     {
-        json += "{\"name\":\"" + students[i].name + "\","
-                                                    "\"grade\":" +
-                to_string(students[i].grade) + ","
-                                               "\"roll\":" +
-                to_string(students[i].roll) + "}";
-        if (i != students.size() - 1)
-            json += ",";
+        while (getline(lessonFile, line))
+        {
+            if (line.empty())
+                continue;
+
+            stringstream ss(line);
+            Lesson l;
+
+            try
+            {
+                getline(ss, line, ',');
+                l.id = stoi(line);
+                getline(ss, l.title, ',');
+                getline(ss, l.content, ',');
+                getline(ss, line, ',');
+                l.classID = stoi(line);
+                getline(ss, line);
+                l.order = stoi(line);
+
+                lessons[l.id] = l;
+                nextLessonID = max(nextLessonID, l.id + 1);
+            }
+            catch (const exception &e)
+            {
+                cerr << "Error loading lesson: " << e.what() << endl;
+            }
+        }
+        lessonFile.close();
     }
-    json += "]";
-    return json;
 }
+
+// Custom comparator for max-heap based on completion rate
+struct StudentComparator
+{
+    bool operator()(const pair<double, string> &a, const pair<double, string> &b)
+    {
+        return a.first < b.first; // Max-heap: larger completion rate has higher priority
+    }
+};
 
 int main()
 {
-    cerr << "Program started..." << endl;
-    vector<Student> students;
-    string line;
+    loadData();
+    loadLessons();
 
-    // Read all lines until EOF
-    while (getline(cin, line))
+    int classID;
+    string userEmail;
+
+    string classIDStr;
+    getline(cin, classIDStr);
+    classID = stoi(classIDStr);
+    getline(cin, userEmail);
+
+    // Trim
+    userEmail.erase(0, userEmail.find_first_not_of(" \t\n\r\f\v"));
+    userEmail.erase(userEmail.find_last_not_of(" \t\n\r\f\v") + 1);
+
+    // Validate user exists
+    if (users.find(userEmail) == users.end())
+        return cout << "ERROR:USER_NOT_FOUND", 0;
+
+    // Validate class exists
+    if (classes.find(classID) == classes.end())
+        return cout << "ERROR:CLASS_NOT_FOUND", 0;
+
+    Class &cls = classes[classID];
+    User &user = users[userEmail];
+
+    // Check access
+    bool hasAccess = false;
+    if (user.role == "TEACHER" && cls.teacherEmail == userEmail)
     {
-        if (line.empty())
-            continue; // skip blanks instead of breaking
-        istringstream iss(line);
-        string name;
-        int grade;
-        int roll;
-        if (!(iss >> name >> grade >> roll))
-            continue; // skip malformed lines
-        students.push_back({name, grade, roll});
+        hasAccess = true;
+    }
+    else if (user.role == "STUDENT")
+    {
+        auto it = find(cls.studentIDs.begin(), cls.studentIDs.end(), user.id);
+        if (it != cls.studentIDs.end())
+        {
+            hasAccess = true;
+        }
     }
 
-    if (students.empty())
+    if (!hasAccess)
+        return cout << "ERROR:NO_ACCESS", 0;
+
+    // Count total lessons in class using iterative counting
+    int totalLessonsInClass = 0;
+    for (auto &lessonPair : lessons)
     {
-        cerr << "No student data received.\n";
-        cout << "[]"; // return empty array safely
+        if (lessonPair.second.classID == classID)
+        {
+            totalLessonsInClass++;
+        }
+    }
+
+    // Use Max-Heap (Priority Queue) to get top 3
+    priority_queue<pair<double, string>, vector<pair<double, string>>, StudentComparator> maxHeap;
+
+    // Student info storage using array-like indexing concept
+    vector<tuple<string, int, int>> studentInfo; // name, completed, total
+
+    for (int studentID : cls.studentIDs)
+    {
+        // Find student by ID using linear search (but we're using heap for ranking)
+        for (auto &userPair : users)
+        {
+            User &student = userPair.second;
+            if (student.id == studentID && student.role == "STUDENT")
+            {
+
+                // Count completed lessons using iterative approach
+                int completedLessons = 0;
+                if (student.progress.progress.find(classID) != student.progress.progress.end())
+                {
+                    auto &classProgress = student.progress.progress[classID];
+                    for (auto &lessonPair : lessons)
+                    {
+                        if (lessonPair.second.classID == classID)
+                        {
+                            if (classProgress.find(lessonPair.first) != classProgress.end() &&
+                                classProgress[lessonPair.first])
+                            {
+                                completedLessons++;
+                            }
+                        }
+                    }
+                }
+
+                double completionRate = totalLessonsInClass > 0 ? (double)completedLessons / totalLessonsInClass * 100 : 0;
+
+                // Push to max-heap with completion rate as priority
+                string studentKey = to_string(studentID) + "|" + student.name + "|" +
+                                    to_string(completedLessons) + "|" + to_string(totalLessonsInClass);
+                maxHeap.push({completionRate, studentKey});
+                break;
+            }
+        }
+    }
+
+    // Extract top 3 from max-heap
+    vector<string> topStudents;
+    for (int i = 0; i < 3 && !maxHeap.empty(); i++)
+    {
+        auto top = maxHeap.top();
+        topStudents.push_back(to_string(i + 1) + ":" + top.second + ":" + to_string((int)top.first));
+        maxHeap.pop();
+    }
+
+    // Output top 3
+    if (topStudents.empty())
+    {
+        cout << "NO_STUDENTS";
         return 0;
     }
 
-    sort(students.begin(), students.end(), [](const Student &a, const Student &b)
-         { return a.roll < b.roll; });
+    for (size_t i = 0; i < topStudents.size(); i++)
+    {
+        cout << topStudents[i];
+        if (i + 1 < topStudents.size())
+        {
+            cout << ";";
+        }
+    }
 
-    cout << toJSON(students);
     return 0;
 }

@@ -3,6 +3,8 @@ import { checkAuth } from "./store/features/authSlice";
 import HomeRouter from "./routes/HomeRouter";
 import AuthRouter from "./routes/AuthRouter";
 import { useEffect } from "react";
+import CustomLoader from "./components/CustomLoader";
+import { Toaster } from "sonner";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -15,12 +17,15 @@ export default function App() {
   return (
     <>
       {status === "loading" ? (
-        <div>loading</div>
+        <div className="h-screen bg-background w-full">
+          <CustomLoader styles={"h-24 w-24"} />
+        </div>
       ) : token ? (
         <HomeRouter />
       ) : (
         <AuthRouter />
       )}
+      <Toaster />
     </>
   );
 }
