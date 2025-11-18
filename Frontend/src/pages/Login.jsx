@@ -51,7 +51,7 @@ export default function LoginPage() {
           </Button>
         </div>
       </form>
-      <div className="mt-4 flex gap-1 justify-end items-center text-gray-700">
+      <div className="mt-4 mr-14 flex gap-1 justify-end items-center text-gray-700">
         <p>Don't have an account?</p>
         <Link to="/signup" className="text-sm text-indigo-500 hover:underline">
           Sign up

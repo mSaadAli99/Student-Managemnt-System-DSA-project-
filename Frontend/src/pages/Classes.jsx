@@ -80,7 +80,7 @@ const Classes = () => {
         {user?.role === "TEACHER" && (
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2">
+              <Button className="flex items-center gap bg-blue-700 hover:bg-violet-800">
                 <Plus className="h-4 w-4" /> Add Class
               </Button>
             </DialogTrigger>
@@ -108,7 +108,7 @@ const Classes = () => {
                 <Button
                   onClick={handleAddClass}
                   disabled={add_class_status === "loading"}
-                  className="w-full"
+                  className="w-full bg-blue-700 hover:bg-blue-800"
                 >
                   {add_class_status === "loading" ? "Creating..." : "Create"}
                 </Button>

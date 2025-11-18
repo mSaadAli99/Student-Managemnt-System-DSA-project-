@@ -160,7 +160,7 @@ export default function ClassDetails() {
 
         <Dialog open={addOpen} onOpenChange={setAddOpen}>
           <DialogTrigger asChild>
-            <Button variant="secondary">Add Lesson</Button>
+            <Button className="bg-green-600">+ Add Lesson</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
@@ -182,7 +182,7 @@ export default function ClassDetails() {
                 <Button variant="ghost" onClick={() => setAddOpen(false)}>
                   Cancel
                 </Button>
-                <Button onClick={handleAddLesson} disabled={addLoading}>
+                <Button className="bg-green-600" onClick={handleAddLesson} disabled={addLoading}>
                   {addLoading ? "Adding..." : "Add Lesson"}
                 </Button>
               </div>
@@ -205,7 +205,7 @@ export default function ClassDetails() {
             <h2 className="text-lg font-medium">Class Students</h2>
             <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
               <DialogTrigger asChild>
-                <Button variant="secondary">Invite Student</Button>
+                <Button className="bg-green-600">Invite Student</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -227,7 +227,7 @@ export default function ClassDetails() {
                     >
                       Cancel
                     </Button>
-                    <Button onClick={handleInvite}>Send</Button>
+                    <Button className="bg-green-600" onClick={handleInvite}>Send</Button>
                   </div>
                 </div>
               </DialogContent>
